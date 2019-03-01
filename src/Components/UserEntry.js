@@ -1,124 +1,99 @@
-import React, { Component } from 'react';
+import React, {Component} from "react"
 import firebase from 'firebase'
 
 class UserEntry extends Component {
     constructor() {
-        super();
-
+        super()
         this.state = {
-            date: [], //empty array to hold date, userInput re: exercises
-            exercises: [], //empty array to hold exercises, userExerciseInput
-            userDateInput: '', // set initial date input to be blank
-            userExerciseInput: ''
+            userInputDate: "",
+            userInputExercise: "",
+            workouts: [] //Array where InputDate and Exercises are pushed
         }
-    } //constructor ends here
-
-    handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    } //handleChange ends here
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        // console.log(this.state.userDateInput)
+    }
+    
+    handleSubmit = (e) => {
+        e.preventDefault()
+        const workouts = this.state.workouts
+        const workout = {
+            //workout is equal to an date array with excercise object
+            [this.state.userInputDate]: this.state.userInputExercise
+        }
+        workouts.push(workout) //push individual workout (each day is it's own workout), to the workouts array, as an object
+        this.setState({workouts}) 
 
         const dbRef = firebase.database().ref()
-        dbRef.push(this.state.userDateInput)
+        console.log(workout)
+        dbRef.push(workout) //note: not this.state.workout as it does not exist
+    }
 
-        this.setState({
-            userDateInput: '' // on submit, empty the user input so they can enter a new date
-        })
-    } //handleSubmit ends here
-
-    addExercise = () => {
-        const copiedArray = Array.from(this.state.exercises); 
-        copiedArray.push(this.state.userExerciseInput);
-        //copy of state and push to copy and update 
-        console.log(this.state.userExerciseInput);
-        console.log(copiedArray)
-        this.setState({
-            exercises: copiedArray
-        })
+    handleChange = (e) => {
+        this.setState({[e.target.name]: e.target.value})
     }
 
     componentDidMount() {
-        const dbRef = firebase.database().ref(); //var holds ref to DB
+        const dbRef = firebase.database().ref()
 
         dbRef.on('value', response => { //get val of database
             const newState = []; //once we have data from the on value, we create a new array and reset to this new array
             const data = response.val() //data is an object, we need an array of the dates 
-            for (let key in data) {
-                newState.push({
-                    key: key, //ability to target indiv dates
-                    day: data[key],  //push day
-                   
-                })
-            }
-            this.setState({
-                date: newState
+            // for (let key in data){
+            //     newState.push({
+            //         key: key,
+            //         exercise:data[key]
+            //     })
             })
-        })
-    }
-render() {
-    return (
-        <div className="FormContainer">
-            <ul>
-                {
-                this.state.date.map((dates) => {
+        
+            // this.setState({
+            //     workouts: newState //prints to page
+            // })
+        }
+
+    
+ render() {
+     return (         
+         <div>
+             <h1>Workout Journal</h1>
+             <div>
+                <h2>Current Workouts</h2>
+                <ul>
+                {this.state.workouts.map( workout => {
                     return (
-                        <li key={dates.key} id={dates.key}>
-                            <p>{dates.day} - {dates.key}</p>
-                        </li>
+                        <li>{Object.keys(workout)} - {workout[exercise]} </li>
                     )
-                })
-            }
-            {
-                this.state.exercises.map((exercise) => {
-                    return (
-                <li key={exercise} id={exercise.key}>
-                    <p>{exercise} - {exercise.key}</p>
-                </li>
-                    )
-                })
-     
-            }
-            </ul>
-            <form
-                action="submit"
-                onSubmit={this.handleSubmit}
-                className="dateInputForm"
-            >
+                })}
+                </ul>
+             </div>
+                 <form
+                     action="submit"
+                     onSubmit={this.handleSubmit}
+                     className="dateInputForm"
+                 >
 
-                <input
-                    type="date"
-                    name="userDateInput"
-                    onChange={this.handleChange}
-                    placeholder="enter date"
-                    value={this.state.userDateInput}
-                />
+                     <input
+                         type="date"
+                         name="userInputDate"
+                         onChange={this.handleChange}
+                         placeholder="enter date"
+                        //  value={this.state.userDateInput}
+                     />
 
-                <input
-                    type="text"
-                    name="userExerciseInput"
-                    onChange={this.handleChange}
-                    placeholder="enter exercise"
-                    value={this.state.userExerciseInput} />
-                <button type="button" onClick={this.addExercise}>Add entry</button>
-                <button type="submit">submit workout</button>
+                     <input
+                         type="text"
+                         name="userInputExercise"
+                         onChange={this.handleChange}
+                         placeholder="enter exercise"
+                        //  value={this.state.userExerciseInput} 
+                         />                    
+                    <button type="submit">Submit Workout</button>
 
-                { /*    <form className="inputExercise">
-                    <input type="text" className="exerciseName">Exercise</input>
-                    <form action="" className="exerciseDetails">
-                    <input type="number" className="sets">Sets</input>
-                    <input type="number" className="reps">Reps</input>
-                    <input type="text" className="notes">Notes</input>
-                    </form>
-            </form> */}
-
-            </form>
-        </div>
-    );
+                 </form>
+             
+             
+         </div>
+     )
+ }
 }
-}
+
 export default UserEntry
+
+//have a state of input numbers - and then for amount of inputs, render component called input // this will keep rendering on click, it'd increment the state once. 
