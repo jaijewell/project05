@@ -7,7 +7,7 @@ class UserEntry extends Component {
         this.state = {
             userInputDate: "",
             userInputExercise: "",
-            workouts: [] //Array where InputDate and Exercises are pushed
+            workouts: [] //Arraywhere InputDate and Exercises are pushed
         }
     }
     
@@ -58,9 +58,11 @@ class UserEntry extends Component {
                 <ul>
                 {this.state.workouts.map( workout => {
                     return (
-                        <li>{Object.keys(workout)} - {workout[exercise]} </li>
+                        <li>{Object.keys(workout)} - {this.state.userInputExercise} </li>
                     )
-                })}
+
+                })
+                }
                 </ul>
              </div>
                  <form

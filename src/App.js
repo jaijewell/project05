@@ -4,9 +4,6 @@ import firebase from './firebase.js';
 import UserEntry from './Components/UserEntry';
 
 class App extends Component {
-  
-    
-
   render() {
     return (
       <div className="App">
