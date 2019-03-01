@@ -7,7 +7,7 @@ class UserEntry extends Component {
         this.state = {
             userInputDate: "",
             userInputExercise: "",
-            workouts: [] //Arraywhere InputDate and Exercises are pushed
+            workouts: [] //Array where InputDate and Exercises are pushed
         }
     }
     
@@ -15,10 +15,10 @@ class UserEntry extends Component {
         e.preventDefault()
         const workouts = this.state.workouts
         const workout = {
-            //workout is equal to an date array with excercise object
+            //workout is equal to an date as array key with excercise as its value
             [this.state.userInputDate]: this.state.userInputExercise
         }
-        workouts.push(workout) //push individual workout (each day is it's own workout), to the workouts array, as an object
+        workouts.push(workout) //push individual workout object (each day is it's own workout), to the workouts array
         this.setState({workouts}) 
 
         const dbRef = firebase.database().ref()
@@ -58,11 +58,9 @@ class UserEntry extends Component {
                 <ul>
                 {this.state.workouts.map( workout => {
                     return (
-                        <li>{Object.keys(workout)} - {this.state.userInputExercise} </li>
+                        <li>{Object.keys(workout)} -  {Object.values(workout)}</li>
                     )
-
-                })
-                }
+                })}
                 </ul>
              </div>
                  <form
