@@ -8,6 +8,7 @@ class UserEntry2 extends Component {
         this.state = {
             allWorkouts: [],
             workout: [], //empty object to hold date and user exercises
+            
             userDateInput: '', // set initial date input to be blank
             userExerciseInput: ''
         }
