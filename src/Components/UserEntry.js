@@ -7,8 +7,7 @@ class UserEntry extends Component {
         this.state = {
             userInputDate: "",
             userInputExercise: "",
-            workouts: [], //Array where InputDate and Exercises are pushed
-            dateArray: []
+            workouts: [] //Array where InputDate and Exercises are pushed
         }
     } //constructor ends here
 
@@ -26,12 +25,13 @@ class UserEntry extends Component {
     }
 
     addExercise = () => {
-        const dateArray = this.state.dateArray;
+        const date = [this.state.userInputDate]
         const exercise = this.state.userInputExercise;
+        const workouts = this.state.workouts
         // const userInputDate;
         // const workouts = this.state.workouts
-        dateArray.push(exercise)
-        this.setState(dateArray)
+        date.push(exercise)
+        this.setState(workouts)
         const dbRef = firebase.database().ref()
         dbRef.push(exercise)
     }
@@ -100,55 +100,52 @@ class UserEntry extends Component {
  render() {
     return (         
         <div className="wrapper">
-            <h1>Workout Journal</h1>
-             
-                <form
-                    action="submit"
-                    onSubmit={this.handleSubmit}
-                    className="dateInputForm"
-                >
-
-                    <input
-                         type="date"
-                         name="userInputDate"
-                         onChange={this.handleChange}
-                         placeholder="enter date"
-                         value={this.state.userDateInput}
-                    />
-                <button type="button" className="dateSubmit" onClick={this.addDate}>Add Date</button>
-                    <input
-                        type="text"
-                        name="userInputExercise"
+            <form
+                action="submit"
+                onSubmit={this.handleSubmit}
+                className="dateInputForm"
+            >
+                <input
+                        type="date"
+                        name="userInputDate"
                         onChange={this.handleChange}
-                        placeholder="enter exercise"
-                        value={this.state.userExerciseInput}
-                    />
+                        placeholder="enter date"
+                        value={this.state.userDateInput}
+                />
+                <button type="button" className="dateSubmit" onClick={this.addDate}>Add Date</button>
+                <input
+                    type="text"
+                    name="userInputExercise"
+                    onChange={this.handleChange}
+                    placeholder="enter exercise"
+                    value={this.state.userExerciseInput}
+                />
                 <button type="button" className="exercieSubmit" onClick={this.addExercise}>Add exercise</button> 
 
-                    <button type="submit">submit workout</button>
-                </form>       
-            <div>
-                <h2>Current Workouts</h2>
-                <ul>
-                    {this.state.workouts.map(workout => {
-                        return (
-                          
-                            <li key={workout.key}>
-                                <h3> {Object.values(workout)} </h3>
-                            </li>    
-                        )
-                     })}
+                <button type="submit">submit workout</button>
+            </form>       
+        <div>
+            <h2>Current Workouts</h2>
+            <ul>
+                {this.state.workouts.map(workout => {
+                    return (
+                        
+                        <li key={workout.key}>
+                            <h3> {Object.values(workout)} </h3>
+                        </li>    
+                    )
+                    })}
 
-                     {this.state.dateArray.map(exercise => {
-                         return (
-                             <li>
-                             <p>{Object.values(exercise)}</p>
-                             </li>
-                         )
-                     })}
-                 </ul>
-             </div> 
-         </div>
+                {/* this.state.dateArray.map(exercise => {
+                    return (
+                        <li>
+                            <p>{Object.values(exercise)}</p>
+                        </li>
+                    )
+                }) */}
+            </ul>
+            </div> 
+        </div>
     )}
 }
 
