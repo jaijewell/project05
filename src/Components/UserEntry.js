@@ -134,12 +134,17 @@ class UserEntry extends Component {
                         return (
                           
                             <li key={workout.key}>
-                                <p> {Object.values(workout)} - </p>
-                             
-                                
-                                
+                                <h3> {Object.values(workout)} </h3>
                             </li>    
                         )
+                     })}
+
+                     {this.state.dateArray.map(exercise => {
+                         return (
+                             <li>
+                             <p>{Object.values(exercise)}</p>
+                             </li>
+                         )
                      })}
                  </ul>
              </div> 
