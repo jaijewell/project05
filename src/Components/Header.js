@@ -2,7 +2,7 @@ import React from 'react';
 
 function Header(props) {
     return (
-        <header>
+        <header className="wrapper">
             <h1>Workout Journal</h1>
         </header>
     );
