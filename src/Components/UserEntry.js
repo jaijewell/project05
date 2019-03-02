@@ -7,33 +7,51 @@ class UserEntry extends Component {
         this.state = {
             userInputDate: "",
             userInputExercise: "",
-            workouts: [] //Array where InputDate and Exercises are pushed
+            workouts: [], //Array where InputDate and Exercises are pushed
+            dateArray: []
         }
     } //constructor ends here
-    
-    handleSubmit = (e) => {
-        e.preventDefault()
-
-        const workouts = this.state.workouts
-        const workout = {
-            // if({ workouts }.includes([this.state.userInputDate])).push()
-            [this.state.userInputDate]: [this.state.userInputExercise]
-        }
-
-        // I want to create a function, map through this.state.userInputDate, if that date already exists, (.find) push the value(userInputExercise) to that same objectKey. if it does not exist, create a new array with that objectKey. Where does this go??? 
-
-        workouts.push(workout) //push individual workout object (each day is it's own workout), to the workouts array
-        this.setState({workouts}) 
-
-        const dbRef = firebase.database().ref()
-        // console.log(workout)
-        dbRef.push(workout) //note: not this.state.workout as it does not exist
-
-    } //handleSubmit ends here
 
     handleChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
+        this.setState({ [e.target.name]: e.target.value })
     } //handleChange
+    
+    addDate = () => {
+        const date = this.state.userInputDate;
+        const workouts=this.state.workouts
+        workouts.push(date)
+        this.setState(workouts)
+        const dbRef = firebase.database().ref()
+        dbRef.push(date)
+    }
+
+    addExercise = () => {
+        const dateArray = this.state.dateArray;
+        const exercise = this.state.userInputExercise;
+        // const userInputDate;
+        // const workouts = this.state.workouts
+        dateArray.push(exercise)
+        this.setState(dateArray)
+        const dbRef = firebase.database().ref()
+        dbRef.push(exercise)
+    }
+
+    // handleSubmit = (e) => {
+    //     e.preventDefault()
+    //     const workouts = this.state.workouts
+    //     const workout = {
+    //         [this.state.userInputDate]: this.state.userInputExercise
+    //     }
+    //     workouts.push(workout) // push individual workout object to the workouts array
+    //     this.setState({workouts}) 
+
+    //     const dbRef = firebase.database().ref()
+    //     dbRef.push(workout)
+    // } //handleSubmit ends here
+
+   
+
+  
 
     componentDidMount() {
         const dbRef = firebase.database().ref() //referencing database,  
@@ -59,6 +77,8 @@ class UserEntry extends Component {
         })
     } //componentdidmount ends here
 
+
+       
     // addExercise = () => {
     //     const copiedArray = Array.from(this.state.workouts); 
     //     copiedArray.push(this.state.userInputDate);
@@ -95,18 +115,18 @@ class UserEntry extends Component {
                          placeholder="enter date"
                          value={this.state.userDateInput}
                     />
-
+                <button type="button" className="dateSubmit" onClick={this.addDate}>Add Date</button>
                     <input
                         type="text"
                         name="userInputExercise"
                         onChange={this.handleChange}
                         placeholder="enter exercise"
-                        value={this.state.userExerciseInput} 
-                         />    
-                    <button type="button" onClick={this.addExercise}>Add entry</button>                
-                    <button type="submit">Submit Workout</button>
+                        value={this.state.userExerciseInput}
+                    />
+                <button type="button" className="exercieSubmit" onClick={this.addExercise}>Add exercise</button> 
 
-                </form>
+                    <button type="submit">submit workout</button>
+                </form>       
             <div>
                 <h2>Current Workouts</h2>
                 <ul>
@@ -114,7 +134,7 @@ class UserEntry extends Component {
                         return (
                           
                             <li key={workout.key}>
-                                <p>{Object.keys(workout)} -  {Object.values(workout)}</p>
+                                <p> {Object.values(workout)} - </p>
                              
                                 
                                 
