@@ -4,11 +4,12 @@ html {
 
 :root {
   --mainBgColour:#cecece;
-  --mainAccent: #b1e5f2;
+  --primaryAccent: #b1e5f2;
   --secondaryAccent: #272635;
   --primaryFont: 'Poppins', sans-serif;
   --defaultFont: 400;
   --boldFont: 800;
+  --transitionDetail: .4s ease-in-out;
 } 
 
 .wrapper {
@@ -62,7 +63,10 @@ h3 {
 p {
   border: 2px solid white;
   display: block;
-  
+}
+
+.displayLineBreak {
+  white-space: pre-line;
 }
 
 ul {
@@ -72,6 +76,7 @@ ul {
 li {
   list-style: none;
   border: 2px solid powderblue;
+  display: block;
   
 }
 
@@ -110,30 +115,22 @@ input::placeholder {
   color: var(--secondaryAccent);
 }
 
-[type="date"],
-button {
-  text-align: center;
+button:hover {
+  background: var(--primaryAccent);
 }
 
-  input #inputExerciseId {
-    
-
-  }
+button  {
+  border: none;
+  transition: var(--transitionDetail);
+}
   
-  #inputExerciseId:focus {
-    background: $primaryAccent;
-    color: $primaryColour;
-  }
-  button  {
-    border: none;
-  }
-  
-  input[type="date"]:focus-within,
-  #inputExerciseId:focus-within,button:focus-within {
-    background-color: var(--mainAccent)
-  }
+input[type="date"]:focus-within,
+#inputExerciseId:focus-within,button:focus-within {
+  background-color: var(--primaryAccent);
+  transition: var(--transitionDetail);
+}
 
-
-footer {
-  
+footer  p{
+  margin: 0;
+  padding: 2%;
 }   

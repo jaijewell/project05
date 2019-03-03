@@ -39,10 +39,13 @@ class UserEntry extends Component {
     handleSubmit = (e) => {
         // Prevents browswer from refreshing...
         e.preventDefault();
-        const dbRef = firebase.database().ref()
+        const dbRef = firebase.database().ref();
         let workouts = this.state.workouts;
         let workoutsClone = [...workouts];
         // console.log(workoutsClone);
+
+        
+        
         
         const dateExist = workoutsClone.find( (item) => {
             return item.date === this.state.inputDate; 
@@ -110,6 +113,7 @@ class UserEntry extends Component {
                         type="date"
                         name="inputDate"
                         id="inputDateId"
+                        required
                         // every time user updates the input, 
                         // calls handleChange and update state
                         onChange={this.handleChange}
@@ -124,6 +128,7 @@ class UserEntry extends Component {
                         placeholder="Enter exercise details"
                         name="inputExercise"
                         id="inputExerciseId"
+                        required
                         // every time user updates the input,
                         // calls handleChange and update state
                         onChange={this.handleChange}
@@ -136,15 +141,19 @@ class UserEntry extends Component {
                             return (
                                 <li>
                                     <h3> {Object.values(workout.date)}</h3>
-                                    <div>
-                                        <p>{Object.values(workout.exercises)} </p>
-                                        
-                                         {/* <button onClick={() => this.removeExercise(({Object.values(workout.date)}}>
-                                         <i className="far fa-times-circle"></i></button> */}
-                                    </div>
                                 </li>
                             )
                         })}
+
+                        {this.state.exercises.map(exercise => {
+                            return (
+                                <li>
+                                    <p>{Object.values(exercise.exercises).join('\r\n')} </p>
+                                </li>
+                            )
+                        })}
+                                 
+                    
                     </ul>
                 </div>
             </div>
