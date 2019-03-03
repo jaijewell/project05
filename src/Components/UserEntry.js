@@ -6,6 +6,7 @@ class UserEntry extends Component {
         super()
         this.state = {
             workouts: [], //Array where InputDate and Exercises are pushed
+            dateObject: {},
             userInputDate: "",
             userInputExercise: ""
         }
@@ -32,24 +33,32 @@ class UserEntry extends Component {
         workouts.push(date)
         const dbRef = firebase.database().ref()
         dbRef.push(date)
-
         this.setState(workouts)
     }
 
-    addExercise = () => {
-        const date = this.state.userInputDate;
-        console.log(date)
+    addExercise = (exercise) => {
+        this.setState({exercise})
+        let exerciseArray = exercise.split(',')
+        let exerciseArrayObject = []
+        exerciseArray.forEach((val) => {
+            exerciseArrayObject.push({
+                [val]: val
+            })
+        })
+        // const date = this.state.userInputDate;
+        // console.log(date)
 
-        const exercise = this.state.userInputExercise;
-        console.log(exercise)
+        // const exercise = this.state.userInputExercise;
         // console.log(exercise)
-        const workouts = this.state.workouts
+        // // console.log(exercise)
+        // const workouts = this.state.workouts
         // const userInputDate;
         // const workouts = this.state.workouts
-        date.push(exercise)
+        workouts.push(exercise);
         // this.setState(workouts)
         const dbRef = firebase.database().ref()
         dbRef.push(exercise)
+        this.setState(workouts)
     }
 
     // handleSubmit = (e) => {
