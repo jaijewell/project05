@@ -22,7 +22,7 @@ class UserEntry extends Component {
     //     const dbRef=firebase.database().ref()
     //     dbRef.push(workouts)
     //     this.setState(workouts)
-    // } pushing an array into the workouts array .. did not work.
+    // } creating a this.state.dateArray as an empty array and pushing an array into the workouts array .. did not work.
 
     addDate = () => {
         const date = this.state.userInputDate;
