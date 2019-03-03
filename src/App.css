@@ -1,21 +1,139 @@
-body {
-  --mainBgColour: snow;
+html {
+  font-size: 125%;
+}
+
+:root {
+  --mainBgColour:#cecece;
+  --mainAccent: #b1e5f2;
+  --secondaryAccent: #272635;
   --primaryFont: 'Poppins', sans-serif;
   --defaultFont: 400;
   --boldFont: 800;
+} 
 
-}
+.wrapper {
+    max-width: 1600px;
+    margin: 0 10%;
+} 
 
 body {
   background-color: var(--mainBgColour);
+  color: var(--secondaryAccent);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: space-between;
 }
 
 header {
   font-family: var(--primaryFont);
   font-weight: var(--boldFont);
+  font-size: 1.25rem;
+}
+
+h1 {
+  margin:0;
+  padding: 2%;
+}
+
+/* form styling beings here */
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10% 0;
+  border: 2px solid tomato;
+}
+
+h1 {
+  border: 2px solid yellow;
+}
+
+h3 {
+  border: 2px solid green;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+p {
+  border: 2px solid white;
+  display: block;
+  
+}
+
+ul {
+  border: 2px solid tomato;
+  padding: 0;
+}
+li {
+  list-style: none;
+  border: 2px solid powderblue;
+  
+}
+
+[type="date"] {
+  border: 2px solid turquoise;
+}
+
+[type="text"] {
+  border: 2px solid pink;
+  max-width: 100%;
+  letter-spacing: 2px;
+}
+
+button {
+  border: 2px solid skyblue;
 }
 
 footer {
-  
+  border: 2px solid orange;
 }
+
+[type="date"],
+label,
+#inputExerciseId,
+button {
+    font-family: var(--primaryFont);
+    font-weight: var(--defaultFont);
+    color: var(--secondaryAccent);
+    height: 50px;
+    border-radius: 10px;
+    margin: 2% 0;
+    text-align: center;
+}
+
+input::placeholder {
+  color: var(--secondaryAccent);
+}
+
+[type="date"],
+button {
+  text-align: center;
+}
+
+  input #inputExerciseId {
+    
+
+  }
+  
+  #inputExerciseId:focus {
+    background: $primaryAccent;
+    color: $primaryColour;
+  }
+  button  {
+    border: none;
+  }
+  
+  input[type="date"]:focus-within,
+  #inputExerciseId:focus-within,button:focus-within {
+    background-color: var(--mainAccent)
+  }
+
+
+footer {
+  
+}   

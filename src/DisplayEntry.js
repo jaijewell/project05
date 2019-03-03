@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+
 
 class DisplayEntry extends Component {
     constructor(props){

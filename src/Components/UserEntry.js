@@ -103,9 +103,8 @@ class UserEntry extends Component {
             <div className="wrapper">
                 <form onSubmit={this.handleSubmit}>
                     <label 
-                        htmlFor="inputDateId"
-                        className="visuallyHidden">
-                        Select Date of workout
+                        htmlFor="inputDateId">
+                        Select Date of workout:
                     </label>
                     <input 
                         type="date"
@@ -122,9 +121,10 @@ class UserEntry extends Component {
                     </label>
                     <input 
                         type="text"
+                        placeholder="Enter exercise details"
                         name="inputExercise"
                         id="inputExerciseId"
-                        // every time user updates the input, 
+                        // every time user updates the input,
                         // calls handleChange and update state
                         onChange={this.handleChange}
                         />
