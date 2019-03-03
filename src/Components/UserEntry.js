@@ -141,19 +141,18 @@ class UserEntry extends Component {
                             return (
                                 <li>
                                     <h3> {Object.values(workout.date)}</h3>
+                                    <div>
+                                       
+                                            <span>{Object.values(workout.exercises)}<br/></span>
+                                        
+                                        
+                                        
+                                         {/* <button onClick={() => this.removeExercise(({Object.values(workout.date)}}>
+                                         <i className="far fa-times-circle"></i></button> */}
+                                    </div>
                                 </li>
                             )
                         })}
-
-                        {this.state.exercises.map(exercise => {
-                            return (
-                                <li>
-                                    <p>{Object.values(exercise.exercises).join('\r\n')} </p>
-                                </li>
-                            )
-                        })}
-                                 
-                    
                     </ul>
                 </div>
             </div>
