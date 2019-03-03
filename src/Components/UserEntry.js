@@ -16,36 +16,34 @@ class UserEntry extends Component {
         this.setState({ [e.target.name]: e.target.value })
     } //handleChange
     
-    // combArrays = () => {
-    //     const workouts = this.state.workouts;
-    //     const dateArray=this.state.dateArray;
-    //     workouts.push(dateArray)
-    //     const dbRef=firebase.database().ref()
-    //     dbRef.push(workouts)
-    //     this.setState(workouts)
-    // } creating a this.state.dateArray as an empty array and pushing an array into the workouts array .. did not work.
 
     addDate = () => {
         const date = this.state.userInputDate;
+        const exercise = this.state.userInputExercise;
         //date returns date when console.log
         const workouts=this.state.workouts
         // console.log(workouts) returns an array
-        workouts.push(date)
+        const dateObject = {
+            [date]:[exercise]
+        }
+        console.log(dateObject)
+        workouts.push(dateObject)
+        console.log(workouts)
         const dbRef = firebase.database().ref()
-        dbRef.push(date)
+        dbRef.push(dateObject)
         this.setState(workouts)
     }
 
     addExercise = (exercise) => {
-        this.setState({exercise})
-        let exerciseArray = exercise.split(',')
-        let exerciseArrayObject = []
-        exerciseArray.forEach((val) => {
-            exerciseArrayObject.push({
-                [val]: val
-            })
-        })
-        // const date = this.state.userInputDate;
+        // this.setState({exercise})
+        // let exerciseArray = exercise.split(',')
+        // let exerciseArrayObject = []
+        // exerciseArray.forEach((val) => {
+        //     exerciseArrayObject.push({
+        //         [val]: val
+        //     })
+        // })
+        // // const date = this.state.userInputDate;
         // console.log(date)
 
         // const exercise = this.state.userInputExercise;
@@ -54,11 +52,11 @@ class UserEntry extends Component {
         // const workouts = this.state.workouts
         // const userInputDate;
         // const workouts = this.state.workouts
-        workouts.push(exercise);
+        // workouts.push(exercise);
+        // // this.setState(workouts)
+        // const dbRef = firebase.database().ref()
+        // dbRef.push(exercise)
         // this.setState(workouts)
-        const dbRef = firebase.database().ref()
-        dbRef.push(exercise)
-        this.setState(workouts)
     }
 
     // handleSubmit = (e) => {
@@ -116,11 +114,10 @@ class UserEntry extends Component {
     // }
     
         // give user option to delete an exercise - currently get an error, stretch goal.
-        // removeExercise=(exerciseId)=>{
-        //     const dbRef = firebase.database().ref(exerciseId)
-        //     //
-        //     dbRef.remove()
-        // }
+        removeExercise=(exerciseId)=>{
+            const dbRef = firebase.database().ref(exerciseId)
+            dbRef.remove()
+        }
     
  render() {
     return (         
@@ -138,6 +135,7 @@ class UserEntry extends Component {
                         value={this.state.userDateInput}
                 />
                 <button type="button" className="dateSubmit" onClick={this.addDate}>Add Date</button>
+                
                 <input
                     type="text"
                     name="userInputExercise"
@@ -154,20 +152,19 @@ class UserEntry extends Component {
             <ul>
                 {this.state.workouts.map(workout => {
                     return (
-                        
+                 
                         <li key={workout.key}>
-                            <h3> {Object.values(workout)} </h3>
-                        </li>    
+                            <h3> {Object.keys(workout)}</h3>
+                            
+                            <div>
+                            <p key={workout.key}> {Object.values(workout)}</p> 
+                                <button onClick={()=>this.removeExercise(Object.values(workout))}><i className="far fa-times-circle"></i></button>
+                            </div>
+
+
+                        </li> 
                     )
                     })}
-
-                {/* this.state.dateArray.map(exercise => {
-                    return (
-                        <li>
-                            <p>{Object.values(exercise)}</p>
-                        </li>
-                    )
-                }) */}
             </ul>
             </div> 
         </div>
@@ -175,5 +172,5 @@ class UserEntry extends Component {
 }
 
 export default UserEntry
-
-//have a state of input numbers - and then for amount of inputs, render component called input // this will keep rendering on click, it'd increment the state once. 
+{/* 
+// have a state of input numbers - and then for amount of inputs, render component called input // this will keep rendering on click, it'd increment the state once.  */}
