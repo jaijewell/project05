@@ -20,33 +20,42 @@ class UserEntry extends Component {
     addDate = () => {
         const date = this.state.userInputDate;
         const exercise = this.state.userInputExercise;
-        //date returns date when console.log
         const workouts=this.state.workouts
-        // console.log(workouts) returns an array
+        
         const dateObject = {
-            [date]:[exercise]
+            date: date,
+            exercise: [exercise]
         }
-        console.log(dateObject)
-        workouts.push(dateObject)
-        console.log(workouts)
-        const dbRef = firebase.database().ref()
-        dbRef.push(dateObject)
+        
+        const existingDate = workouts.find((obj) => {
+            if (obj === dateObject.date) {
+                    dateObject.exercise.push(exercise)
+            } else {
+                    workouts.push(date)
+
+            }
+            console.log(this.state.existingDate)
+        })
+      
+        // const dbRef = firebase.database().ref()
+        // dbRef.push(dateObject)
         this.setState(workouts)
+        
     }
 
-    addExercise = (exercise) => {
-        // const exercise = this.state.userInputExercise;
-        // console.log(exercise)
-        // // console.log(exercise)
-        // const workouts = this.state.workouts
-        // const userInputDate;
-        // const workouts = this.state.workouts
-        // workouts.push(exercise);
-        // // this.setState(workouts)
-        // const dbRef = firebase.database().ref()
-        // dbRef.push(exercise)
-        // this.setState(workouts)
-    }
+    // addExercise = (exercise) => {
+    //     const exercise = this.state.userInputExercise;
+    //     console.log(exercise)
+    //     // console.log(exercise)
+    //     const date = this.state.dateObject
+        
+    //     const workouts = this.state.workouts
+    //     workouts.push(exercise);
+    //     // this.setState(workouts)
+    //     const dbRef = firebase.database().ref()
+    //     dbRef.push(exercise)
+    //     this.setState(workouts)
+    // }
 
     // handleSubmit = (e) => {
     //     e.preventDefault()
@@ -61,17 +70,10 @@ class UserEntry extends Component {
     //     dbRef.push(workout)
     // } //handleSubmit ends here
 
-   
-
-  
-
     componentDidMount() {
-        const dbRef = firebase.database().ref() //referencing database,  
-
-        //shouldn't this be getting the value from the database?
+        const dbRef = firebase.database().ref()
         dbRef.on('value', response => { //get val from the database to update
             const newState = []; //once we have data from the on value, we create a new array and reset to this new array 
-
             const data = response.val() //data is an object, we need an array of the dates 
             
             // console.log(data)
@@ -88,8 +90,6 @@ class UserEntry extends Component {
             // })  
         })
     } //componentdidmount ends here
-
-
        
     // addExercise = () => {
     //     const copiedArray = Array.from(this.state.workouts); 
@@ -108,7 +108,7 @@ class UserEntry extends Component {
             dbRef.remove()
         }
     
- render() {
+render() {
     return (         
         <div className="wrapper">
             <form
