@@ -33,9 +33,13 @@ header {
   font-size: 1.25rem;
 }
 
-h1 {
+h1, 
+label {
   margin:0;
-  padding: 2%;
+}
+
+h1 {
+  padding: 5% 0;
 }
 
 /* form styling beings here */
@@ -46,56 +50,22 @@ form {
   align-items: center;
   width: 100%;
   padding: 10% 0;
-  border: 2px solid tomato;
 }
 
-h1 {
-  border: 2px solid yellow;
+ul {
+  padding: 0;
 }
 
-h3 {
-  border: 2px solid green;
+li {
+  list-style: none;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 }
 
-p {
-  border: 2px solid white;
-  display: block;
-}
-
-.displayLineBreak {
-  white-space: pre-line;
-}
-
-ul {
-  border: 2px solid tomato;
-  padding: 0;
-}
-li {
-  list-style: none;
-  border: 2px solid powderblue;
-  display: block;
-  
-}
-
-[type="date"] {
-  border: 2px solid turquoise;
-}
-
 [type="text"] {
-  border: 2px solid pink;
   max-width: 100%;
   letter-spacing: 2px;
-}
-
-button {
-  border: 2px solid skyblue;
-}
-
-footer {
-  border: 2px solid orange;
 }
 
 [type="date"],
@@ -129,6 +99,15 @@ input[type="date"]:focus-within,
   background-color: var(--primaryAccent);
   transition: var(--transitionDetail);
 }
+
+/* display Workout */
+h3,
+ul {
+  text-align: left;
+  margin: 0;
+
+}
+
 
 footer  p{
   margin: 0;

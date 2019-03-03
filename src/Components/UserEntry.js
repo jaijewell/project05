@@ -44,9 +44,6 @@ class UserEntry extends Component {
         let workoutsClone = [...workouts];
         // console.log(workoutsClone);
 
-        
-        
-        
         const dateExist = workoutsClone.find( (item) => {
             return item.date === this.state.inputDate; 
         })
@@ -141,15 +138,13 @@ class UserEntry extends Component {
                             return (
                                 <li>
                                     <h3> {Object.values(workout.date)}</h3>
-                                    <div>
+                                    <ul>
                                        
-                                            <span>{Object.values(workout.exercises)}<br/></span>
-                                        
-                                        
-                                        
-                                         {/* <button onClick={() => this.removeExercise(({Object.values(workout.date)}}>
-                                         <i className="far fa-times-circle"></i></button> */}
-                                    </div>
+                                        <li>
+                                            <p>{Object.values(workout.exercises)}</p>
+                                        </li>
+                                    
+                                    </ul>
                                 </li>
                             )
                         })}
