@@ -35,17 +35,6 @@ class UserEntry extends Component {
     }
 
     addExercise = (exercise) => {
-        // this.setState({exercise})
-        // let exerciseArray = exercise.split(',')
-        // let exerciseArrayObject = []
-        // exerciseArray.forEach((val) => {
-        //     exerciseArrayObject.push({
-        //         [val]: val
-        //     })
-        // })
-        // // const date = this.state.userInputDate;
-        // console.log(date)
-
         // const exercise = this.state.userInputExercise;
         // console.log(exercise)
         // // console.log(exercise)
