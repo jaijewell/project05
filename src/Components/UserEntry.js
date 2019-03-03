@@ -2,12 +2,12 @@ import React, {Component} from "react"
 import firebase from 'firebase'
 
 class UserEntry extends Component {
-    constructor() {
+    constructor(props) {
         super()
         this.state = {
+            workouts: [], //Array where InputDate and Exercises are pushed
             userInputDate: "",
-            userInputExercise: "",
-            workouts: [] //Array where InputDate and Exercises are pushed
+            userInputExercise: ""
         }
     } //constructor ends here
 
@@ -15,23 +15,39 @@ class UserEntry extends Component {
         this.setState({ [e.target.name]: e.target.value })
     } //handleChange
     
+    // combArrays = () => {
+    //     const workouts = this.state.workouts;
+    //     const dateArray=this.state.dateArray;
+    //     workouts.push(dateArray)
+    //     const dbRef=firebase.database().ref()
+    //     dbRef.push(workouts)
+    //     this.setState(workouts)
+    // } pushing an array into the workouts array .. did not work.
+
     addDate = () => {
         const date = this.state.userInputDate;
+        //date returns date when console.log
         const workouts=this.state.workouts
+        // console.log(workouts) returns an array
         workouts.push(date)
-        this.setState(workouts)
         const dbRef = firebase.database().ref()
         dbRef.push(date)
+
+        this.setState(workouts)
     }
 
     addExercise = () => {
-        const date = [this.state.userInputDate]
+        const date = this.state.userInputDate;
+        console.log(date)
+
         const exercise = this.state.userInputExercise;
+        console.log(exercise)
+        // console.log(exercise)
         const workouts = this.state.workouts
         // const userInputDate;
         // const workouts = this.state.workouts
         date.push(exercise)
-        this.setState(workouts)
+        // this.setState(workouts)
         const dbRef = firebase.database().ref()
         dbRef.push(exercise)
     }
