@@ -1,165 +1,155 @@
-import React, {Component} from "react"
-import firebase from 'firebase'
+import React, {Component} from 'react';
+import firebase from 'firebase';
 
 class UserEntry extends Component {
     constructor(props) {
-        super()
+        super(props);
+
         this.state = {
-            workouts: [], //Array where InputDate and Exercises are pushed
-            dateObject: {},
-            userInputDate: "",
-            userInputExercise: ""
+            // Initial state for user input is empty
+            inputDate: '',
+            inputExercise: '',
+            workouts: [], 
+            //creating a workout array, end result should look like an array of objects for each date e.g. 
+            //workouts: [
+            //  {
+            //   date: yyyy mm dd,
+            //   exercise: ["squat",  "bench", "deadlift"]
+            //   }
+            // ]
         }
-    } //constructor ends here
-
-    handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value })
-    } //handleChange
+    } 
     
-
-    addDate = () => {
-        const date = this.state.userInputDate;
-        const exercise = this.state.userInputExercise;
-        const workouts=this.state.workouts
-        
-        const dateObject = {
-            date: date,
-            exercise: [exercise]
-        }
-        
-        const existingDate = workouts.find((obj) => {
-            if (obj === dateObject.date) {
-                    dateObject.exercise.push(exercise)
-            } else {
-                    workouts.push(date)
-
+    // Function updating the state with the user's input values
+    handleChange = (e) => {
+        // console.log(e.target.value);
+        this.setState(
+            {
+                [e.target.name]: e.target.value
             }
-            console.log(this.state.existingDate)
-        })
-      
-        // const dbRef = firebase.database().ref()
-        // dbRef.push(dateObject)
-        this.setState(workouts)
-        
+        )
     }
 
-    // addExercise = (exercise) => {
-    //     const exercise = this.state.userInputExercise;
-    //     console.log(exercise)
-    //     // console.log(exercise)
-    //     const date = this.state.dateObject
+    // When 'Log Workout' button is clicked:
+        // clone array to not update state directly
+        // use .find to determine if the inputDate is an existing object in the workout array
+        //if no existing date is found in the workout array set up an exercises array and push the inputExercise to said array
+        //create new object "entry" to hold the inputDate and the exercises array, push "entry" to the workout clone, to not update state directly.
+        //if the date does exist push the user's input exercise into the object
+    handleSubmit = (e) => {
+        // Prevents browswer from refreshing...
+        e.preventDefault();
+        const dbRef = firebase.database().ref()
+        let workouts = this.state.workouts;
+        let workoutsClone = [...workouts];
+        // console.log(workoutsClone);
         
-    //     const workouts = this.state.workouts
-    //     workouts.push(exercise);
-    //     // this.setState(workouts)
-    //     const dbRef = firebase.database().ref()
-    //     dbRef.push(exercise)
-    //     this.setState(workouts)
-    // }
+        const dateExist = workoutsClone.find( (item) => {
+            return item.date === this.state.inputDate; 
+        })
+        // console.log(dateExist);
 
-    // handleSubmit = (e) => {
-    //     e.preventDefault()
-    //     const workouts = this.state.workouts
-    //     const workout = {
-    //         [this.state.userInputDate]: this.state.userInputExercise
-    //     }
-    //     workouts.push(workout) // push individual workout object to the workouts array
-    //     this.setState({workouts}) 
+        // If the date is not found in the workout array
+        if(!dateExist) {     
+            let exercises = [];
+            exercises.push(this.state.inputExercise);
+            
+            const entry = {
+                date: this.state.inputDate,
+                exercises: exercises,
+            }
+            workoutsClone.push(entry);
+        
+        // Else, if the date does exist already in the workouts array
+        } else {
+            dateExist.exercises.push(this.state.inputExercise);
+            dbRef.push(dateExist)
+        }   
+        console.log(workoutsClone);
 
-    //     const dbRef = firebase.database().ref()
-    //     dbRef.push(workout)
-    // } //handleSubmit ends here
+        //push to firebase
+        dbRef.push(workoutsClone)
+        this.setState({
+            workouts: workoutsClone 
+        });
+    }
 
     componentDidMount() {
-        const dbRef = firebase.database().ref()
-        dbRef.on('value', response => { //get val from the database to update
-            const newState = []; //once we have data from the on value, we create a new array and reset to this new array 
-            const data = response.val() //data is an object, we need an array of the dates 
-            
-            // console.log(data)
-            //loop through the database,
-            // for (let key in data){
-            //     newState.push({
-            //         key: key,
-            //         [Object.keys(data[key])]:Object.values(data[key])
-            //     })
-            // }
-            // console.log(newState)
-            // this.setState({
-            //     workouts: newState //prints to page
-            // })  
+        const dbRef = firebase.database().ref();
+        dbRef.on('value', response => {
+            // const newState = []
+            const data = response.val() 
+                // can we talk about this? I cannot figure it out. Maybe because it's so different (layers are deeper) from the books example?
+                // for (let key in data) {
+                //     console.log(data[key])
+                //     newState.push({
+                //         key: key,
+                //         dateObj: data[key]
+                //     })
+                // }   
+                // this.setState({
+                //     books: newState // this prints to page.  
         })
-    } //componentdidmount ends here
-       
-    // addExercise = () => {
-    //     const copiedArray = Array.from(this.state.workouts); 
-    //     copiedArray.push(this.state.userInputDate);
-    //     //copy of state and push to copy and update 
-    //     console.log(this.state.userInputExercise);
-    //     // console.log(copiedArray)
-    //     this.setState({
-    //         workouts: copiedArray
-    //     })
+    }
+    
+
+    // removeExercise = (exerciseId) => {
+    //     const dbRef = firebase.database().ref(exerciseId)
+    //     dbRef.remove()
     // }
-    
-        // give user option to delete an exercise - currently get an error, stretch goal.
-        removeExercise=(exerciseId)=>{
-            const dbRef = firebase.database().ref(exerciseId)
-            dbRef.remove()
-        }
-    
-render() {
-    return (         
-        <div className="wrapper">
-            <form
-                action="submit"
-                onSubmit={this.handleSubmit}
-                className="dateInputForm"
-            >
-                <input
+
+    render() {
+        return (  
+            <div className="wrapper">
+                <form onSubmit={this.handleSubmit}>
+                    <label 
+                        htmlFor="inputDateId"
+                        className="visuallyHidden">
+                        Select Date of workout
+                    </label>
+                    <input 
                         type="date"
-                        name="userInputDate"
+                        name="inputDate"
+                        id="inputDateId"
+                        // every time user updates the input, 
+                        // calls handleChange and update state
                         onChange={this.handleChange}
-                        placeholder="enter date"
-                        value={this.state.userDateInput}
-                />
-                <button type="button" className="dateSubmit" onClick={this.addDate}>Add Date</button>
-                
-                <input
-                    type="text"
-                    name="userInputExercise"
-                    onChange={this.handleChange}
-                    placeholder="enter exercise"
-                    value={this.state.userExerciseInput}
-                />
-                <button type="button" className="exercieSubmit" onClick={this.addExercise}>Add exercise</button> 
-
-                <button type="submit">submit workout</button>
-            </form>       
-        <div>
-            <h2>Current Workouts</h2>
-            <ul>
-                {this.state.workouts.map(workout => {
-                    return (
-                 
-                        <li key={workout.key}>
-                            <h3> {Object.keys(workout)}</h3>
-                            
-                            <div>
-                            <p key={workout.key}> {Object.values(workout)}</p> 
-                                <button onClick={()=>this.removeExercise(Object.values(workout))}><i className="far fa-times-circle"></i></button>
-                            </div>
-
-
-                        </li> 
-                    )
-                    })}
-            </ul>
-            </div> 
-        </div>
-    )}
+                        />
+                    <label
+                        htmlFor="inputExerciseId"
+                        className="visuallyHidden">
+                        Enter exercise Details
+                    </label>
+                    <input 
+                        type="text"
+                        name="inputExercise"
+                        id="inputExerciseId"
+                        // every time user updates the input, 
+                        // calls handleChange and update state
+                        onChange={this.handleChange}
+                        />
+                    <button>Log Workout!</button>
+                </form>
+                <div className = "DisplayEntry" >
+                    <ul>
+                        {this.state.workouts.map(workout => {
+                            return (
+                                <li>
+                                    <h3> {Object.values(workout.date)}</h3>
+                                    <div>
+                                        <p>{Object.values(workout.exercises)} </p>
+                                        
+                                         {/* <button onClick={() => this.removeExercise(({Object.values(workout.date)}}>
+                                         <i className="far fa-times-circle"></i></button> */}
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+            </div>
+        )
+    }
 }
 
-export default UserEntry
-{/* 
-// have a state of input numbers - and then for amount of inputs, render component called input // this will keep rendering on click, it'd increment the state once.  */}
+export default UserEntry;
