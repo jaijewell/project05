@@ -13,8 +13,8 @@ html {
 } 
 
 .wrapper {
-    max-width: 1600px;
-    margin: 0 10%;
+  max-width: 1600px;
+  margin: 0 10%;
 } 
 
 body {
@@ -39,7 +39,7 @@ label {
 }
 
 h1 {
-  padding: 5% 0;
+  padding: 25px 0;
 }
 
 /* form styling beings here */
@@ -49,7 +49,7 @@ form {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10% 0;
+  padding: 25px 0;
 }
 
 ul {
@@ -72,13 +72,25 @@ li {
 label,
 #inputExerciseId,
 button {
-    font-family: var(--primaryFont);
-    font-weight: var(--defaultFont);
-    color: var(--secondaryAccent);
-    height: 50px;
-    border-radius: 10px;
-    margin: 2% 0;
-    text-align: center;
+  font-family: var(--primaryFont);
+  font-weight: var(--defaultFont);
+  color: var(--secondaryAccent);
+  height: 50px;
+  border-radius: 10px;
+
+  text-align: center;
+}
+
+[type="date"],
+#inputExerciseId,
+button {
+  margin: 10px 0;
+}
+
+button  {
+  border: none;
+  transition: var(--transitionDetail);
+  text-transform: uppercase;
 }
 
 input::placeholder {
@@ -89,18 +101,15 @@ button:hover {
   background: var(--primaryAccent);
 }
 
-button  {
-  border: none;
-  transition: var(--transitionDetail);
-}
-  
+
+/* accessibility styling - focus on inputs */
 input[type="date"]:focus-within,
 #inputExerciseId:focus-within,button:focus-within {
   background-color: var(--primaryAccent);
   transition: var(--transitionDetail);
 }
 
-/* display Workout */
+/* display Workout styling */
 h3,
 ul {
   text-align: left;
@@ -108,8 +117,41 @@ ul {
 
 }
 
-
+/* footer styling */
 footer  p{
   margin: 0;
-  padding: 2%;
+  padding: 10px;
 }   
+
+/* media queries styling begin here */
+
+
+  @media(min-width: 480px) {
+    header {
+      font-size: 1.5rem;
+    }
+
+    label {
+      font-size: 1.25rem;
+    }
+
+    h3 {
+      font-size: 1.25rem
+    }
+}
+
+  @media(min-width: 600px) {
+    
+    p {
+      font-size: 1rem;
+    }
+}
+
+  @media(min-width: 900px) {
+    ;
+}
+
+  @media (min-width: 1200px) {
+
+  };
+

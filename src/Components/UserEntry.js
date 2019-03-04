@@ -22,7 +22,6 @@ class UserEntry extends Component {
     
     // Function updating the state with the user's input values
     handleChange = (e) => {
-        // console.log(e.target.value);
         this.setState(
             {
                 [e.target.name]: e.target.value
@@ -33,21 +32,18 @@ class UserEntry extends Component {
     // When 'Log Workout' button is clicked:
         // clone array to not update state directly
         // use .find to determine if the inputDate is an existing object in the workout array
-        //if no existing date is found in the workout array set up an exercises array and push the inputExercise to said array
+        // if no existing date is found in the workout array set up an exercises array and push the inputExercise to said array
         //create new object "entry" to hold the inputDate and the exercises array, push "entry" to the workout clone, to not update state directly.
         //if the date does exist push the user's input exercise into the object
     handleSubmit = (e) => {
-        // Prevents browswer from refreshing...
         e.preventDefault();
         const dbRef = firebase.database().ref();
         let workouts = this.state.workouts;
         let workoutsClone = [...workouts];
-        // console.log(workoutsClone);
 
         const dateExist = workoutsClone.find( (item) => {
             return item.date === this.state.inputDate; 
         })
-        // console.log(dateExist);
 
         // If the date is not found in the workout array
         if(!dateExist) {     
@@ -65,7 +61,6 @@ class UserEntry extends Component {
             dateExist.exercises.push(this.state.inputExercise);
             dbRef.push(dateExist)
         }   
-        console.log(workoutsClone);
 
         //push to firebase
         dbRef.push(workoutsClone)
@@ -79,24 +74,17 @@ class UserEntry extends Component {
         dbRef.on('value', response => {
             // const newState = []
             const data = response.val() 
-                // can we talk about this? I cannot figure it out. Maybe because it's so different (layers are deeper) from the books example?
+                // can we talk about this section? I cannot figure it out. Can you confirm that the/a best way to do this, would to have componentDidMount as a separate component, as well as maybe have a date component, and an exercise component?
                 // for (let key in data) {
-                //     console.log(data[key])
                 //     newState.push({
                 //         key: key,
                 //         dateObj: data[key]
                 //     })
                 // }   
                 // this.setState({
-                //     books: newState // this prints to page.  
+                //     workouts: newState // this prints to page.  
         })
     }
-    
-
-    // removeExercise = (exerciseId) => {
-    //     const dbRef = firebase.database().ref(exerciseId)
-    //     dbRef.remove()
-    // }
 
     render() {
         return (  
@@ -104,7 +92,7 @@ class UserEntry extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <label 
                         htmlFor="inputDateId">
-                        Select Date of workout:
+                        Select date of workout:
                     </label>
                     <input 
                         type="date"
@@ -132,18 +120,16 @@ class UserEntry extends Component {
                         />
                     <button>Log Workout!</button>
                 </form>
-                <div className = "DisplayEntry" >
+                <div>
                     <ul>
                         {this.state.workouts.map(workout => {
                             return (
                                 <li>
                                     <h3> {Object.values(workout.date)}</h3>
                                     <ul>
-                                       
                                         <li>
                                             <p>{Object.values(workout.exercises)}</p>
                                         </li>
-                                    
                                     </ul>
                                 </li>
                             )
@@ -154,5 +140,4 @@ class UserEntry extends Component {
         )
     }
 }
-
 export default UserEntry;

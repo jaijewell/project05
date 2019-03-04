@@ -6,8 +6,8 @@ import UserEntry from './Components/UserEntry'
 import Footer from './Components/Footer'
 
 class App extends Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
   }
 
   render() {
