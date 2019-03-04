@@ -40,8 +40,7 @@ class UserEntry extends Component {
         const dbRef = firebase.database().ref();
         let workouts = this.state.workouts;
         let workoutsClone = [...workouts];
-        console.log(workoutsClone)
-        console.log(workouts)
+        
         let inputDate = this.state.inputDate;
 
         const dateExist = workoutsClone.find( (item) => {
@@ -84,7 +83,7 @@ class UserEntry extends Component {
                         dateObj: data[key]
                     })
                 }   
-                console.log(newState)
+            
                 this.setState({ 
                     workouts2: newState // this prints to page.  
                 })
