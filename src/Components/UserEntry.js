@@ -9,11 +9,11 @@ class UserEntry extends Component {
             // Initial state for user input is empty
             inputDate: '',
             inputExercise: '',
-            workouts: [], 
+            workouts: []
             //creating a workout array, end result should look like an array of objects for each date e.g. 
-            //workouts: [
+            // workouts: [
             //  {
-            //   date: yyyy mm dd,
+            //   date: 'yyyy mm dd',
             //   exercise: ["squat",  "bench", "deadlift"]
             //   }
             // ]
@@ -40,25 +40,28 @@ class UserEntry extends Component {
         const dbRef = firebase.database().ref();
         let workouts = this.state.workouts;
         let workoutsClone = [...workouts];
+        console.log(workoutsClone)
+        console.log(workouts)
+        let inputDate = this.state.inputDate;
 
         const dateExist = workoutsClone.find( (item) => {
-            return item.date === this.state.inputDate; 
+            return item.date === inputDate; 
         })
-
+        let input = this.state.inputExercise;
         // If the date is not found in the workout array
         if(!dateExist) {     
             let exercises = [];
-            exercises.push(this.state.inputExercise);
+            exercises.push(input);
             
             const entry = {
-                date: this.state.inputDate,
-                exercises: exercises,
+                date: inputDate,
+                exercises: exercises
             }
             workoutsClone.push(entry);
         
         // Else, if the date does exist already in the workouts array
         } else {
-            dateExist.exercises.push(this.state.inputExercise);
+            dateExist.exercises.push(input);
             dbRef.push(dateExist)
         }   
 
@@ -69,21 +72,23 @@ class UserEntry extends Component {
         });
     }
 
-    componentDidMount() {
+    componentDidMount(){
         const dbRef = firebase.database().ref();
         dbRef.on('value', response => {
-            // const newState = []
-            const data = response.val() 
+            const newState = [];
+            const data = response.val(); 
                 // can we talk about this section? I cannot figure it out. Can you confirm that the/a best way to do this, would to have componentDidMount as a separate component, as well as maybe have a date component, and an exercise component?
-                // for (let key in data) {
-                //     newState.push({
-                //         key: key,
-                //         dateObj: data[key]
-                //     })
-                // }   
-                // this.setState({
-                //     workouts: newState // this prints to page.  
-        })
+                for (let key in data) {
+                    newState.push({
+                        key: key,
+                        dateObj: data[key]
+                    })
+                }   
+                console.log(newState)
+                this.setState({ 
+                    workouts2: newState // this prints to page.  
+                })
+            })
     }
 
     render() {
@@ -122,13 +127,15 @@ class UserEntry extends Component {
                 </form>
                 <div>
                     <ul>
-                        {this.state.workouts.map(workout => {
+                        {this.state.workouts.map((workout,i) => {
                             return (
-                                <li>
-                                    <h3> {Object.values(workout.date)}</h3>
+                                <li key={i}>
+                                   <h3> {Object.values(workout.date)}</h3>
                                     <ul>
-                                        <li>
-                                            <p>{Object.values(workout.exercises)}</p>
+                                        <li className="workoutList">
+                                            {Object.values(workout.exercises).map((exercise, i)=>{
+                                                return (<p key={i}>{exercise}</p>)
+                                            })}
                                         </li>
                                     </ul>
                                 </li>

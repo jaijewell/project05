@@ -34,7 +34,8 @@ header {
 }
 
 h1, 
-label {
+label,
+p {
   margin:0;
 }
 
@@ -52,16 +53,7 @@ form {
   padding: 25px 0;
 }
 
-ul {
-  padding: 0;
-}
 
-li {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
 
 [type="text"] {
   max-width: 100%;
@@ -117,6 +109,25 @@ ul {
 
 }
 
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+p {
+  padding: 5px;
+}
+
+.workoutList p::before {
+  content:"-";
+  padding: 5px;
+}
+
+
+
 /* footer styling */
 footer  p{
   margin: 0;
@@ -124,7 +135,6 @@ footer  p{
 }   
 
 /* media queries styling begin here */
-
 
   @media(min-width: 480px) {
     header {
@@ -138,20 +148,12 @@ footer  p{
     h3 {
       font-size: 1.25rem
     }
-}
+} /* 480 media query ends here */
 
   @media(min-width: 600px) {
     
     p {
       font-size: 1rem;
     }
-}
-
-  @media(min-width: 900px) {
-    ;
-}
-
-  @media (min-width: 1200px) {
-
-  };
+} /* 600  media query ends here */
 
